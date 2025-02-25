@@ -74,13 +74,16 @@ class ReAct(Module):
     def forward(self, **input_args):
         trajectory = {}
         for idx in range(self.max_iters):
+            # print("#" * 50)
             pred = self._call_with_potential_trajectory_truncation(self.react, trajectory, **input_args)
+            # print(pred)
 
             trajectory[f"thought_{idx}"] = pred.next_thought
             trajectory[f"tool_name_{idx}"] = pred.next_tool_name
             trajectory[f"tool_args_{idx}"] = pred.next_tool_args
 
             try:
+                # print(pred.next_thought, pred.next_tool_name, pred.next_tool_args)
                 parsed_tool_args = {}
                 tool = self.tools[pred.next_tool_name]
                 for k, v in pred.next_tool_args.items():
@@ -93,9 +96,14 @@ class ReAct(Module):
                             continue
                     parsed_tool_args[k] = v
                 trajectory[f"observation_{idx}"] = self.tools[pred.next_tool_name](**parsed_tool_args)
+                # print("-" * 20)
+                # print(trajectory[f"observation_{idx}"])
+                # print("-" * 20)
             except Exception as e:
                 trajectory[f"observation_{idx}"] = f"Failed to execute: {e}"
 
+            # print("#" * 50)
+            
             if pred.next_tool_name == "finish":
                 break
 

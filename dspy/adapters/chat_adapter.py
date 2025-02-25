@@ -61,6 +61,9 @@ class ChatAdapter(Adapter):
         return messages
 
     def parse(self, signature, completion):
+        # print("Enter ChatAdapter.parse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        # print("signature: ", signature)
+        # print("completion: ", completion)
         sections = [(None, [])]
 
         for line in completion.splitlines():
@@ -71,6 +74,7 @@ class ChatAdapter(Adapter):
                 sections[-1][1].append(line)
 
         sections = [(k, "\n".join(v).strip()) for k, v in sections]
+        # print("sections: ", sections)
 
         fields = {}
         for k, v in sections:
@@ -82,6 +86,8 @@ class ChatAdapter(Adapter):
                         f"Error parsing field {k}: {e}.\n\n\t\tOn attempting to parse the value\n```\n{v}\n```"
                     )
 
+        # print("Finish ChatAdapter.parse~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        
         if fields.keys() != signature.output_fields.keys():
             raise ValueError(f"Expected {signature.output_fields.keys()} but got {fields.keys()}")
 

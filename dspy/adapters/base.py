@@ -39,10 +39,13 @@ class Adapter(ABC):
                     value["logprobs"] = output_logprobs
                 
                 values.append(value)
+            
+            # print("Direct return here<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 
             return values
 
         except Exception as e:
+            # print(e)
             if isinstance(e, ContextWindowExceededError):
                 # On context window exceeded error, we don't want to retry with a different adapter.
                 raise e

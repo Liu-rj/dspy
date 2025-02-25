@@ -94,6 +94,7 @@ class Predict(Module, Parameter):
 
         import dspy
         adapter = dspy.settings.adapter or dspy.ChatAdapter()
+        # print("reach here>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>, adapter", adapter)
         completions = adapter(lm, lm_kwargs=config, signature=signature, demos=demos, inputs=kwargs)
 
         pred = Prediction.from_completions(completions, signature=signature)

@@ -32,6 +32,7 @@ class JSONAdapter(Adapter):
         pass
 
     def __call__(self, lm, lm_kwargs, signature, demos, inputs):
+        # print("start calling JSONAdapter+++++++++++++++++++++++++++++++")
         inputs = self.format(signature, demos, inputs)
         inputs = dict(prompt=inputs) if isinstance(inputs, str) else dict(messages=inputs)
 
@@ -93,6 +94,7 @@ class JSONAdapter(Adapter):
     def parse(self, signature, completion):
         fields = json_repair.loads(completion)
         fields = {k: v for k, v in fields.items() if k in signature.output_fields}
+        # print(fields)
 
         # attempt to cast each value to type signature.output_fields[k].annotation
         for k, v in fields.items():
@@ -124,6 +126,8 @@ def parse_value(value, annotation):
         return str(value)
 
     parsed_value = value
+    # print("start parsing+++++++++++++++++++++++++++++++")
+    # print(type(parsed_value), parsed_value, annotation)
 
     if isinstance(annotation, enum.EnumMeta):
         parsed_value = find_enum_member(annotation, value)
@@ -135,6 +139,8 @@ def parse_value(value, annotation):
                 parsed_value = ast.literal_eval(value)
             except (ValueError, SyntaxError):
                 parsed_value = value
+    
+    # print(type(parsed_value), parsed_value, annotation)
 
     return TypeAdapter(annotation).validate_python(parsed_value)
 

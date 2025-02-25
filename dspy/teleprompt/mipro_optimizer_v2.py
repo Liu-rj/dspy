@@ -1,6 +1,7 @@
 import logging
 import random
 import textwrap
+import time
 from collections import defaultdict
 from typing import Any, Callable, Dict, List, Literal, Optional, Tuple
 
@@ -167,9 +168,13 @@ class MIPROv2(Teleprompter):
         )
 
         # Step 1: Bootstrap few-shot examples
+        tic = time.time()
         demo_candidates = self._bootstrap_fewshot_examples(program, trainset, seed, teacher)
+        demo_time = time.time() - tic
+        print(f"Bootstrap demo time: {demo_time}")
 
         # Step 2: Propose instruction candidates
+        tic = time.time()
         instruction_candidates = self._propose_instructions(
             program,
             trainset,
@@ -180,12 +185,15 @@ class MIPROv2(Teleprompter):
             tip_aware_proposer,
             fewshot_aware_proposer,
         )
+        instruction_time = time.time() - tic
+        print(f"Propose instruction time: {instruction_time}")
 
         # If zero-shot, discard demos
         if zeroshot_opt:
             demo_candidates = None
 
         # Step 3: Find optimal prompt parameters
+        tic = time.time()
         best_program = self._optimize_prompt_parameters(
             program,
             instruction_candidates,
@@ -198,8 +206,10 @@ class MIPROv2(Teleprompter):
             minibatch_full_eval_steps,
             seed,
         )
+        optimization_time = time.time() - tic
+        print(f"Bayesian optimization time: {optimization_time}")
 
-        return best_program
+        return best_program, (demo_time, instruction_time, optimization_time)
     
     def _set_random_seeds(self,
         seed
@@ -491,7 +501,9 @@ class MIPROv2(Teleprompter):
         adjusted_num_trials = (num_trials + num_trials // minibatch_full_eval_steps + 1) if minibatch else num_trials
         logger.info(f"== Trial {1} / {adjusted_num_trials} - Full Evaluation of Default Program ==")
 
-        default_score, baseline_results = eval_candidate_program(len(valset), valset, program, evaluate, self.rng, return_all_scores=True)
+        default_score = eval_candidate_program(len(valset), valset, program, evaluate, self.rng, return_all_scores=True)
+        if isinstance(default_score, tuple):
+            default_score, baseline_results = default_score
         logger.info(f"Default program score: {default_score}\n")
 
         trial_logs = {}

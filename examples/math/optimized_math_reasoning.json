@@ -1,0 +1,57 @@
+{
+  "predict": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "question": "The doctor has told Cal O'Ree that during his ten weeks of working out at the gym, he can expect each week's weight loss to be $1\\%$ of his weight at the end of the previous week. His weight at the beginning of the workouts is $244$ pounds. How many pounds does he expect to weigh at the end of the ten weeks? Express your answer to the nearest whole number.",
+        "reasoning": "Let's solve this step by step:\n1) Each week, Cal's weight will be 99% of his previous week's weight (since he loses 1%)\n2) After 1 week: 244 \u00d7 0.99 = 241.56 pounds\n3) After 2 weeks: 241.56 \u00d7 0.99 = 239.14 pounds\n4) We can see that after 10 weeks, his weight will be:\n   244 \u00d7 (0.99)^10\n\n5) Using a calculator:\n   * 0.99^10 = 0.9043821\n   * 244 \u00d7 0.9043821 = 220.67 pounds\n\n6) Rounding to the nearest whole number: 221 pounds",
+        "answer": "221"
+      },
+      {
+        "augmented": true,
+        "question": "Suppose $f$ and $g$ are polynomials, and that $h(x)=f(g(x))+g(x)$.  Find the degree of $g(x)$ given that the degree of $h(x)$ is $8$ and the degree of $f(x)$ is $4$.",
+        "reasoning": "Let's say the degree of $g(x)$ is $n$.\n\nWhen we compose $f(g(x))$, since $f$ has degree 4 and we're plugging in $g(x)$ which has degree $n$, the degree of $f(g(x))$ is $4n$.\n\nNow $h(x) = f(g(x)) + g(x)$, and we know $h(x)$ has degree 8.\n\nThe degree of a sum of polynomials is equal to the larger of the degrees of the polynomials being added.\n\nSo either:\n1) $4n = 8$ and $n < 8$, or\n2) $4n < 8$ and $n = 8$, or\n3) $4n = n$ and both equal 8\n\nFrom (1), $n = 2$\nFrom (2), $n = 8$ but this would make $4n = 32 > 8$\nFrom (3), $4n = n$ is impossible unless $n = 0$\n\nTherefore $n = 2$ is the only possibility that works.\n\nWe can verify: if $g(x)$ has degree 2, then $f(g(x))$ has degree 8, and $g(x)$ has degree 2, so $h(x)$ has degree 8.",
+        "answer": "2"
+      },
+      {
+        "augmented": true,
+        "question": "Given that $y=3$, evaluate $(1+y)^y$.",
+        "reasoning": "Since $y=3$, we need to calculate $(1+3)^3 = 4^3$. \n$4^3 = 4 \\times 4 \\times 4 = 64$",
+        "answer": "64"
+      },
+      {
+        "augmented": true,
+        "question": "Given that the absolute value of the difference of the two roots of $ax^2 + 5x - 3 = 0$ is $\\frac{\\sqrt{61}}{3}$, and $a$ is positive, what is the value of $a$?",
+        "reasoning": "Let's solve this step by step:\n\n1) For a quadratic equation $ax^2 + bx + c$, if $r_1$ and $r_2$ are the roots:\n   * $r_1 + r_2 = -\\frac{b}{a}$\n   * $r_1 \\cdot r_2 = \\frac{c}{a}$\n   * $|r_1 - r_2| = \\frac{\\sqrt{b^2-4ac}}{|a|}$\n\n2) In this case:\n   * $a$ is positive\n   * $b = 5$\n   * $c = -3$\n   * $|r_1 - r_2| = \\frac{\\sqrt{61}}{3}$\n\n3) Using the formula for the difference of roots:\n   $\\frac{\\sqrt{25-4a(-3)}}{|a|} = \\frac{\\sqrt{61}}{3}$\n\n4) Since $a$ is positive:\n   $\\frac{\\sqrt{25+12a}}{a} = \\frac{\\sqrt{61}}{3}$\n\n5) Cross multiply:\n   $3\\sqrt{25+12a} = a\\sqrt{61}$\n\n6) Square both sides:\n   $9(25+12a) = 61a^2$\n   $225 + 108a = 61a^2$\n   $61a^2 - 108a - 225 = 0$\n\n7) Using quadratic formula:\n   $a = \\frac{108 \\pm \\sqrt{11664+54900}}{122}$\n   $a = \\frac{108 \\pm \\sqrt{66564}}{122}$\n   $a = \\frac{108 \\pm 258}{122}$\n\n8) Since $a$ is positive:\n   $a = \\frac{108 + 258}{122} = \\frac{366}{122} = 3$",
+        "answer": "3"
+      }
+    ],
+    "signature": {
+      "instructions": "Given a mathematical question, generate a step-by-step reasoning and solution to arrive at the final answer.",
+      "fields": [
+        {
+          "prefix": "Question:",
+          "description": "${question}"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Answer:",
+          "description": "${answer}"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "2.6.2",
+      "cloudpickle": "3.1"
+    }
+  }
+}

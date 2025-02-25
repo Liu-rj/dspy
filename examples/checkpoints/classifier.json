@@ -1,0 +1,113 @@
+{
+  "module.predict": {
+    "lm": null,
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "text": "Can I track when my card will be delivered?",
+        "label": "card_arrival",
+        "hint": "card_arrival"
+      },
+      {
+        "text": "I was charged the wrong exchange rate on a purchase",
+        "label": "card_payment_wrong_exchange_rate",
+        "hint": "card_payment_wrong_exchange_rate"
+      },
+      {
+        "text": "Can you do exchanges of EUR?",
+        "label": "fiat_currency_support",
+        "hint": "fiat_currency_support"
+      },
+      {
+        "text": "Why haven't I received my new card yet?",
+        "label": "card_arrival",
+        "hint": "card_arrival"
+      },
+      {
+        "text": "Do you have support for flat currencies?",
+        "label": "fiat_currency_support",
+        "hint": "fiat_currency_support"
+      },
+      {
+        "text": "I put the wrong pin too many times and now it is blocked. Can you help me unblock it?",
+        "label": "pin_blocked",
+        "hint": "pin_blocked"
+      },
+      {
+        "text": "Is there a fee for a SEPA transfer",
+        "label": "top_up_by_bank_transfer_charge",
+        "hint": "top_up_by_bank_transfer_charge"
+      },
+      {
+        "text": "You did not give me the correct exchange rate for an item that I bought.",
+        "label": "card_payment_wrong_exchange_rate",
+        "hint": "card_payment_wrong_exchange_rate"
+      },
+      {
+        "text": "How much would it cost me for a bank transfer to top up my account?",
+        "label": "top_up_by_bank_transfer_charge",
+        "hint": "top_up_by_bank_transfer_charge"
+      },
+      {
+        "text": "How old do you need to be to open an account?",
+        "label": "age_limit",
+        "hint": "age_limit"
+      },
+      {
+        "text": "There's an extra fee on my statement, why is that?",
+        "label": "extra_charge_on_statement",
+        "hint": "extra_charge_on_statement"
+      },
+      {
+        "text": "Help! I lost my card!",
+        "label": "lost_or_stolen_card",
+        "hint": "lost_or_stolen_card"
+      },
+      {
+        "text": "I am unable to use my card.",
+        "label": "card_not_working",
+        "hint": "card_not_working"
+      },
+      {
+        "text": "How do I add a card on to the app?",
+        "label": "card_linking",
+        "hint": "card_linking"
+      },
+      {
+        "text": "What steps do I need to take to exchange currencies?",
+        "label": "exchange_via_app",
+        "hint": "exchange_via_app"
+      },
+      {
+        "text": "Can I activate a card in the app?",
+        "label": "card_linking",
+        "hint": "card_linking"
+      }
+    ],
+    "signature": {
+      "instructions": "You are an AI assistant at a major international bank's customer service center. Your task is critical as mislabeling customer inquiries could lead to serious delays, security risks, or financial losses for customers. Given a customer's inquiry, you must:\n\n1. Carefully analyze the customer's message to understand their banking issue or question\n2. Think through step-by-step why this inquiry belongs to a specific category\n3. Classify the inquiry into exactly one of the predefined categories\n\nYour classification will determine how quickly the customer receives help and which department handles their case. Incorrect classification could result in:\n- Security vulnerabilities remaining unaddressed\n- Customers being locked out of their accounts longer than necessary\n- Time-sensitive transactions being delayed\n- Compliance issues if regulatory matters are misrouted\n\nProvide your step-by-step reasoning and final classification label. Remember, real customers are depending on your accurate assessment of their banking issues.",
+      "fields": [
+        {
+          "prefix": "Text:",
+          "description": "${text}"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Label:",
+          "description": "${label}"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "2.6.2",
+      "cloudpickle": "3.1"
+    }
+  }
+}
